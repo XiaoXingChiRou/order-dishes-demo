@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szx.orderdishesdemo.mapper.DishMapper">
+    <resultMap id="DishResultMap" type="com.szx.orderdishesdemo.model.Dish">
+        <id property="id" column="id"/>
+        <result property="category" column="category"/>
+        <result property="name" column="name"/>
+    </resultMap>
+    <update id="createTable">
+        CREATE TABLE IF NOT EXISTS dishes (
+           id INT NOT NULL AUTO_INCREMENT,
+           category VARCHAR(255) NOT NULL,
+           name VARCHAR(255) NOT NULL,
+           PRIMARY KEY (id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+    </update>
+
+    <select id="selectAllDishes" resultMap="DishResultMap">
+        SELECT id, category, name FROM dishes
+    </select>
+
+    <select id="selectDishesByCategory" parameterType="String" resultMap="DishResultMap">
+        SELECT id, category, name FROM dishes WHERE category = #{category}
+    </select>
+
+    <insert id="insertDish" parameterType="com.szx.orderdishesdemo.model.Dish">
+        INSERT INTO dishes (category, name) VALUES (#{category}, #{name})
+    </insert>
+</mapper>
